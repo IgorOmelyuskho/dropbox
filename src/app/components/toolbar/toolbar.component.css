@@ -1,0 +1,11 @@
+button {
+  cursor: pointer;
+}
+
+.btn-group-vertical {
+  width: 235px;
+}
+
+.dropdown-menu.show {
+  border: 2px solid #5697ca;
+}

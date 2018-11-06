@@ -1,0 +1,32 @@
+<table datatable [dtOptions]="dtOptions" [dtTrigger]="dtTrigger" class="table table-hover">
+  <thead  class="thead-dark">
+  <tr>
+    <th scope="col">
+      <input (click)="selectAll($event)" type="checkbox">
+    </th>
+    <th scope="col">Name</th>
+    <th scope="col">Size</th>
+    <th scope="col">modification data</th>
+  </tr>
+  </thead>
+  <tbody #tableBody>
+  <tr *ngFor="let fileOrFolder of fileService.currentFolder.folderData" (click)="rowOnSelect(fileOrFolder, $event)" [attr.row-data]="fileOrFolder">
+    <td>
+        <input (change)="checkBoxOnChange(fileOrFolder, $event)" (click)="checkboxOnClick(fileOrFolder, $event)" type="checkbox" [attr.row-data]="fileOrFolder">
+    </td>
+    <td>
+      <span>
+        <i class="far" appChooseIcon [fileType]="fileOrFolder.type"></i>
+      </span>
+      <span> {{ fileOrFolder.name }}</span>
+    </td>
+    <td>{{ fileOrFolder.size }}</td>
+    <td>{{ fileOrFolder.modificationDate }}</td>
+  </tr>
+  </tbody>
+</table>
+
+<!--<button (click)="getHomeFolder()">getHomeFolder</button>-->
+<!--<button (click)="getRouteParams()">getRouteParams</button>-->
+<!--<button (click)="getCurrentFolder()">getCurrentFolder</button>-->
+<!--<button (click)="toggle()">Toggle</button>-->

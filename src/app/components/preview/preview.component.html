@@ -1,0 +1,30 @@
+<section>
+  <div *ngIf="fileForPreview !== null">
+    <div>{{fileForPreview.type}}</div>
+    <div [ngSwitch]="fileForPreview.type">
+      <div *ngSwitchCase="'Folder'">
+        <div>
+          <i class="far" appChooseIcon [fileType]="0"></i>
+          <span> {{fileForPreview.name}}</span>
+        </div>
+      </div>
+      <div *ngSwitchCase="'Text'">
+        <pre>{{fileContent}}</pre>
+      </div>
+      <div *ngSwitchCase="'Image'">
+        <img src={{fileContent}} alt="">
+      </div>
+      <div *ngSwitchCase="'Audio'">
+        <audio src={{fileContent}} controls autoplay></audio>
+      </div>
+      <div *ngSwitchCase="'Video'">
+        <video src={{fileContent}} controls autoplay></video>
+      </div>
+      <div *ngSwitchCase="'Another'">
+        <div>Not supported file type</div>
+      </div>
+    </div>
+  </div>
+
+</section>
+

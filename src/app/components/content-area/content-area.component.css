@@ -1,0 +1,9 @@
+.far {
+  font-size: 25px;
+  color: blue;
+  width: 30px;
+}
+
+tr {
+  cursor: pointer;
+}
