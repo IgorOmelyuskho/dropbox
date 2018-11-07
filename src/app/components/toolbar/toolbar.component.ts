@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, ElementRef, OnInit, ViewChild} from '@angular/core';
 import {FileOperationsService} from '../../services/file-operations/file-operations.service';
 
 @Component({
@@ -13,15 +13,26 @@ export class ToolbarComponent implements OnInit {
   ngOnInit() {
   }
 
-  handleFileInput(files: File[]) {
+  handleFileInput(target) {
+    const files: File[]  = target.files;
     this.fileService.addNewFilesToFolder(files);
+    this.fileService.setAllFoldersSize();
+    target.value = '';
   }
 
-  handleFolderInput(files: File[]) {
+  handleFolderInput(target) {
+    const files: File[]  = target.files;
     this.fileService.addNewFolderToFolder(files);
+    this.fileService.setAllFoldersSize();
+    target.value = '';
   }
 
   removeSelected() {
     this.fileService.removeSelected();
+    this.fileService.setAllFoldersSize();
+  }
+
+  notImplemented() {
+    alert('Not Implemented');
   }
 }

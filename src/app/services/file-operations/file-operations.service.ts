@@ -43,13 +43,15 @@ export class FileOperationsService {
 
   fileForPreview: BehaviorSubject<FileOrFolder> = new BehaviorSubject(null);
 
-  homeFolder = new FileOrFolder('home', 0, '10.10.10', FileType.Folder, null, [], null);
+  homeFolder = new FileOrFolder('home', 0, '- -', FileType.Folder, null, [], null);
 
   currentFolder: FileOrFolder = this.homeFolder;
 
-  constructor(private route: ActivatedRoute, private router: Router, private activateRoute: ActivatedRoute) {
+  constructor(private route: ActivatedRoute, private router: Router) {
     this.router.events.subscribe(data => {
       if (data instanceof NavigationEnd) {
+        this.resetSelected();
+        data.urlAfterRedirects = decodeURI(data.urlAfterRedirects);
         const pathAndParams = data.urlAfterRedirects.split('?');
         const foldersArr = pathAndParams[0].split('/');
         this.currentFolder = this.getFolderFromPath(foldersArr);
@@ -81,7 +83,6 @@ export class FileOperationsService {
   }
 
   getFolderFromPath(path: string[]): FileOrFolder {
-    console.log(path);
     path.shift();
     let result = this.homeFolder;
     for (let i = 0; i < path.length; i++) {
@@ -120,6 +121,7 @@ export class FileOperationsService {
       const fileName = fileOrFolder.fileData.name;
       path = this.getPathForFolder(this.currentFolder);
       console.log('FILE');
+
       this.router.navigate(
         [...path],
         {
@@ -143,23 +145,19 @@ export class FileOperationsService {
   }
 
   removeSelected() {
-    console.log('START');
-    console.log(this.checkedRowData);
-    console.log(this.currentFolder.folderData);
     if (this.checkedRowData.length === 0) {
       return;
     }
-    for (let i = 0; i < this.currentFolder.folderData.length; i++) {
+
+    for (let i = this.currentFolder.folderData.length - 1; i >= 0 ; i--) {
       for (let j = 0; j < this.checkedRowData.length; j++) {
         if (this.currentFolder.folderData[i] === this.checkedRowData[j]) {
           this.currentFolder.folderData.splice(i, 1);
         }
       }
     }
+
     this.checkedRowData = [];
-    console.log(this.checkedRowData);
-    console.log(this.currentFolder.folderData);
-    console.log('FINISH');
   }
 
   selectAll(event, tableBody) {
@@ -237,8 +235,24 @@ export class FileOperationsService {
     for (let i = 1; i < equalF.length; i++) {
         this.addNewFolderToFolder(equalF[i], rootFolder, depth + 1);
     }
-
     return rootFolder;
+  }
+
+  setAllFoldersSize(currentFolder: FileOrFolder = this.homeFolder): number {
+    let currentFolderSize = 0;
+    for (let i = 0; i < currentFolder.folderData.length; i++) {
+      if (currentFolder.folderData[i].type === FileType.Folder) {
+        currentFolderSize += this.setAllFoldersSize(currentFolder.folderData[i]);
+      } else {
+        currentFolderSize += currentFolder.folderData[i].size;
+      }
+    }
+    currentFolder.size = currentFolderSize;
+    return currentFolderSize;
+  }
+
+  resetSelected() {
+    this.checkedRowData = [];
   }
 
   getListEqualFolders(files: File[], depth: number): File[][] {
@@ -272,10 +286,5 @@ export class FileOperationsService {
     }
 
     return result;
-  }
-
-
-  getFileNesting(path: string): number {
-    return path.split('/').length;
   }
 }

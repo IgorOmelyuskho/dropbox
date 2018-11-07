@@ -5,21 +5,21 @@
         Загрузить
       </button>
       <div class="dropdown-menu">
-        <div (change)="handleFileInput($event.target.files)" class="custom-file">
+        <div (input)="handleFileInput($event.target)" class="custom-file">
           <input type="file" multiple class="custom-file-input" id="customFile">
           <label class="custom-file-label" for="customFile">Выберите файлы</label>
         </div>
-        <div (change)="handleFolderInput($event.target.files)" class="custom-file">
+        <div (input)="handleFolderInput($event.target)" class="custom-file">
           <input type="file" webkitdirectory="" directory="" class="custom-file-input" id="customDirectory">
           <label class="custom-file-label" for="customDirectory">Выберите папку</label>
         </div>
       </div>
     </div>
     <button (click)="removeSelected()" type="button" class="list-group-item list-group-item-action">Удалить выбранные</button>
-    <button type="button" class="list-group-item list-group-item-action">Создать общую папку</button>
-    <button type="button" class="list-group-item list-group-item-action">Создать папку</button>
-    <button type="button" class="list-group-item list-group-item-action">Создать новый файл</button>
-    <button type="button" class="list-group-item list-group-item-action">Скрыть удаленные</button>
+    <button (click)="notImplemented()" type="button" class="list-group-item list-group-item-action">Создать общую папку</button>
+    <button (click)="notImplemented()" type="button" class="list-group-item list-group-item-action">Создать папку</button>
+    <button (click)="notImplemented()" type="button" class="list-group-item list-group-item-action">Создать новый файл</button>
+    <button (click)="notImplemented()" type="button" class="list-group-item list-group-item-action">Скрыть удаленные</button>
   </div>
 </section>
 

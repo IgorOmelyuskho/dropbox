@@ -1,7 +1,5 @@
-import {Component, DoCheck, OnChanges, OnInit, Renderer2, SimpleChanges, ViewChild} from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {FileOperationsService, FileOrFolder, FileType} from '../../services/file-operations/file-operations.service';
-import {ActivatedRoute, Router} from '@angular/router';
-import {Renderer3} from '@angular/core/src/render3/interfaces/renderer';
 
 
 @Component({
@@ -14,13 +12,10 @@ export class PreviewComponent implements OnInit {
   fileForPreview: FileOrFolder = null;
   fileContent = '';
 
-  constructor(
-    private renderer: Renderer2, private route: ActivatedRoute, private router: Router, public fileService: FileOperationsService
-  ) { }
+  constructor(public fileService: FileOperationsService) { }
 
   ngOnInit() {
     this.fileService.fileForPreview.subscribe(value => {
-      console.log(value);
       this.fileForPreview = value;
       this.readFile(value);
     });

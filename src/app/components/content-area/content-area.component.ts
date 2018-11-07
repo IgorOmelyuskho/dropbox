@@ -20,26 +20,18 @@ import {ActivatedRoute, Router} from '@angular/router';
 })
 export class ContentAreaComponent implements OnInit, OnDestroy {
   @ViewChild('tableBody') tableBody: ElementRef;
-  @ViewChild('template1') template1: TemplateRef<any>;
-  @ViewChild('template2') template2: TemplateRef<any>;
-  @ViewChild('popoverContent') popoverContent: TemplateRef<any>;
   dtOptions: DataTables.Settings = {};
   dtTrigger: Subject<any> = new Subject();
-  view: EmbeddedViewRef<Object>;
 
 
-  condition = true;
-  toggle() {
-    this.condition = !this.condition;
-    console.log(this.condition);
+  getSelected() {
+    console.log(this.fileService.checkedRowData);
   }
 
   constructor(
     private router: Router,
     public fileService: FileOperationsService,
-    private activateRoute: ActivatedRoute,
-    private viewContainerRef: ViewContainerRef,
-    private elementRef: ElementRef
+    private activateRoute: ActivatedRoute
   ) { }
 
   ngOnInit(): void {
